@@ -14,8 +14,6 @@ import { ValidationPatternsService } from 'src/app/services/validation-patterns.
 })
 export class RegisterComponent {
 
-  patternPassword: RegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/;
-
   // Procuramos usar los mismos nombres que espera nuestra API en las propiedades que agrupamos en nuestro FormBuilder Group
   registerForm: FormGroup = this.fb.group({
     name: [
