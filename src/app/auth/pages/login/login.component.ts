@@ -13,20 +13,23 @@ import Swal from 'sweetalert2'
 })
 export class LoginComponent {
 
+  patternPassword: RegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/;
+  patternEmail: RegExp = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+
   // Procuramos usar los mismos nombres que espera nuestra API en las propiedades que agrupamos en nuestro FormBuilder Group
   loginForm: FormGroup = this.fb.group({
     email: [
       '',   // Valor por defecto vacio
       [
         Validators.required,
-        Validators.email
+        Validators.pattern( this.patternEmail )
       ]
     ],
     password: [
       '', // Valor por defecto vacio
       [
         Validators.required,
-        Validators.minLength( 6 )
+        Validators.pattern( this.patternPassword )
       ]
     ]
   });
