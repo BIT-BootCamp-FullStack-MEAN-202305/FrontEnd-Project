@@ -13,6 +13,8 @@ import Swal from 'sweetalert2';
 })
 export class RegisterComponent {
 
+  patternPassword: RegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/;
+
   // Procuramos usar los mismos nombres que espera nuestra API en las propiedades que agrupamos en nuestro FormBuilder Group
   registerForm: FormGroup = this.fb.group({
     name: [
@@ -21,7 +23,7 @@ export class RegisterComponent {
         Validators.required
       ]
     ],
-     email: [
+    email: [
       '',   // Valor por defecto vacio
       [
         Validators.required,
@@ -32,7 +34,7 @@ export class RegisterComponent {
       '', // Valor por defecto vacio
       [
         Validators.required,
-        Validators.minLength( 6 )
+        Validators.pattern( this.patternPassword )
       ]
     ]
   });
