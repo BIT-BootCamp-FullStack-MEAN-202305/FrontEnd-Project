@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 import Swal from 'sweetalert2';
+import { ValidationPatternsService } from 'src/app/services/validation-patterns.service';
 
 @Component({
   selector: 'app-register',
@@ -34,7 +35,7 @@ export class RegisterComponent {
       '', // Valor por defecto vacio
       [
         Validators.required,
-        Validators.pattern( this.patternPassword )
+        Validators.pattern( this.validation.pass )
       ]
     ]
   });
@@ -42,7 +43,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private validation: ValidationPatternsService
   ) {}
 
   register() {

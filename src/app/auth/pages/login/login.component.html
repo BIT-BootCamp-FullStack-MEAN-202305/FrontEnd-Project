@@ -28,7 +28,7 @@
       <small *ngIf="loginForm.get( 'email' )?.errors?.[ 'required' ]">
         Email es requerido.
       </small>
-      <small *ngIf="loginForm.get( 'email' )?.errors?.[ 'email' ]">
+      <small *ngIf="loginForm.get( 'email' )?.errors?.[ 'pattern' ]">
         Por favor, introduzca un email válido.
       </small>
     </div>

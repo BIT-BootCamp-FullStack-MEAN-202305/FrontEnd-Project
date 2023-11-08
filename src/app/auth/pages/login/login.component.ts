@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 import Swal from 'sweetalert2'
+import { ValidationPatternsService } from 'src/app/services/validation-patterns.service';
 
 @Component({
   selector: 'app-login',
@@ -13,23 +14,20 @@ import Swal from 'sweetalert2'
 })
 export class LoginComponent {
 
-  patternPassword: RegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/;
-  patternEmail: RegExp = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
-
   // Procuramos usar los mismos nombres que espera nuestra API en las propiedades que agrupamos en nuestro FormBuilder Group
   loginForm: FormGroup = this.fb.group({
     email: [
       '',   // Valor por defecto vacio
       [
         Validators.required,
-        Validators.pattern( this.patternEmail )
+        Validators.pattern( this.validation.email )
       ]
     ],
     password: [
       '', // Valor por defecto vacio
       [
         Validators.required,
-        Validators.pattern( this.patternPassword )
+        Validators.pattern( this.validation.pass )
       ]
     ]
   });
@@ -37,7 +35,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private validation: ValidationPatternsService
   ) {}
 
   login() {
