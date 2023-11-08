@@ -29,28 +29,41 @@ function validateQuantity( control: AbstractControl ) {
   return null;
 }
 
-// Función de validación personalizada para el campo 'urlImage'
-function validateNormalUrl( control: AbstractControl ): { [key: string]: boolean } | null {
-  const value = control.value;
-  const urlPattern = /^(https?:\/\/)?[\w\-]+(\.[\w\-]+)+[/#?]?.*$/;
+/*** Función de validación personalizada para el campo 'urlImage' ***/
 
-  if (value && urlPattern.test(value)) {
-    return { invalidUrl: true };
+// Función para validar una URL normal
+function validateNormalUrl( control: AbstractControl ): { [key: string]: any } | null {
+  const value = control.value;
+
+  console.log( 'Valor proporcionado:', value );       // Imprime el valor en la consola
+
+  // Verificar si el valor es un objeto de tipo File
+  if ( value instanceof File ) {
+    const imageType = value.type.split('/')[ 0 ];     // Obtener el tipo de imagen a partir del objeto File
+
+    // Verificar si el tipo de archivo no es una imagen
+    if ( imageType !== 'image' ) {
+      return { invalidUrl: true };
+    }
   }
-  return null;
+
+  return null;    // Devolver nulo si no se encuentran errores de validación
 }
 
-
-function validateBase64Url( control: AbstractControl ): { [key: string]: boolean } | null {
+// Función para validar una imagen codificada en base64
+function validateBase64Image(control: AbstractControl): { [key: string]: any } | null {
   const value = control.value;
-  const base64Pattern = /^data:image\/(jpeg|png|jpg|gif|svg\+xml);base64,/;
+  const base64Pattern = /^data:image\/(jpeg|png|jpg|gif|svg\+xml);base64,([^\"]*)$/;
 
-  if (value && base64Pattern.test(value)) {
-    return { invalidBase64Url: true };
+  console.log( 'Valor proporcionado:', value );       // Imprime el valor en la consola
+
+  // Verificar si el valor es una cadena y si cumple con el patrón de imagen en base64
+  if ( typeof value === 'string' && !base64Pattern.test( value ) ) {
+    return { invalidBase64Image: true };
   }
-  return null;
-}
 
+  return null;    // Devolver nulo si no se encuentran errores de validación
+}
 
 // Función de validación personalizada para el campo 'description'
 function validateDescription( control: AbstractControl ): { [key: string]: boolean } | null {
@@ -109,7 +122,8 @@ export class NewProductComponent implements OnInit {
     urlImage: [
       null,
       [
-        validateNormalUrl, validateBase64Url
+        validateNormalUrl,
+        validateBase64Image
       ]
     ]
   });
