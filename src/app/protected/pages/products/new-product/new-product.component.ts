@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Category } from 'src/app/auth/interfaces/category.interface';
@@ -7,6 +7,61 @@ import { ProductsService } from 'src/app/services/products.service';
 
 import { CategoriesService } from 'src/app/services/categories.service';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
+
+
+// Función de validación personalizada para el campo 'price'
+function validatePrice( control: AbstractControl ) {
+  const value = control.value;
+
+  if (value < 0) {
+    return { negativeValue: true };
+  }
+  return null;
+}
+
+// Función de validación personalizada para el campo 'quantity'
+function validateQuantity( control: AbstractControl ) {
+  const value = control.value;
+
+  if (value <= 0) {
+    return { invalidQuantity: true };
+  }
+  return null;
+}
+
+// Función de validación personalizada para el campo 'urlImage'
+function validateNormalUrl( control: AbstractControl ): { [key: string]: boolean } | null {
+  const value = control.value;
+  const urlPattern = /^(https?:\/\/)?[\w\-]+(\.[\w\-]+)+[/#?]?.*$/;
+
+  if (value && urlPattern.test(value)) {
+    return { invalidUrl: true };
+  }
+  return null;
+}
+
+
+function validateBase64Url( control: AbstractControl ): { [key: string]: boolean } | null {
+  const value = control.value;
+  const base64Pattern = /^data:image\/(jpeg|png|jpg|gif|svg\+xml);base64,/;
+
+  if (value && base64Pattern.test(value)) {
+    return { invalidBase64Url: true };
+  }
+  return null;
+}
+
+
+// Función de validación personalizada para el campo 'description'
+function validateDescription( control: AbstractControl ): { [key: string]: boolean } | null {
+  const value = control.value;
+
+  if ( value && (value.length < 3 || value.length > 140 ) ) {
+    return { invalidDescriptionLength: true };
+  }
+  return null;
+}
+
 
 @Component({
   selector: 'app-new-product',
@@ -25,16 +80,22 @@ export class NewProductComponent implements OnInit {
     name: [
       '',   // Valor por defecto
       [
-        Validators.required
+        Validators.required,
+        Validators.minLength( 3 )
       ]
     ],
     price: [
       '',   // Valor por defecto
-      []
+      [
+        Validators.required,
+        validatePrice
+      ]
     ],
     quantity: [
       '',   // Valor por defecto
       [
+        Validators.required,
+        validateQuantity
       ]
     ],
     category: [
@@ -45,7 +106,12 @@ export class NewProductComponent implements OnInit {
       '',  // Valor por defecto
       []
     ],
-    urlImage: [ null ]
+    urlImage: [
+      null,
+      [
+        validateNormalUrl, validateBase64Url
+      ]
+    ]
   });
 
   constructor(
@@ -103,18 +169,18 @@ export class NewProductComponent implements OnInit {
       this.productForm
     ).subscribe( ( event: HttpEvent<any> ) => {
       switch( event.type ) {
-        case HttpEventType.Sent: 
+        case HttpEventType.Sent:
           console.log( 'Peticion realizada!' );
           break;
-        case HttpEventType.ResponseHeader: 
+        case HttpEventType.ResponseHeader:
           console.log( 'La respuesta del \'header\' ha sido recibido!' );
           break;
-        case HttpEventType.UploadProgress: 
+        case HttpEventType.UploadProgress:
           // this.percentDone = Math.round( event.loaded / event.total * 100 );
           // console.log( `Actualizado ${ this.percentDone }%` );
           console.log( `Actualizo` );
           break;
-        case HttpEventType.Response: 
+        case HttpEventType.Response:
           console.log( 'El producto ha sido creado exitosamente!', event.body );
           this.percentDone = false;
           this.router.navigate( [ 'products' ] );
@@ -122,7 +188,7 @@ export class NewProductComponent implements OnInit {
     });
 
   }
-    
+
 
   loadCategories() {
     this.categoriesService.getCategories()

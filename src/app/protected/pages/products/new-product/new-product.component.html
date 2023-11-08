@@ -15,6 +15,17 @@
       formControlName="name"
       placeholder="Nombre del Producto"
     />
+    <div
+      *ngIf="productForm.get( 'name' )?.invalid && ( productForm.get( 'name' )?.dirty || productForm.get( 'name' )?.touched )"
+      class="error-message"
+    >
+      <small *ngIf="productForm.get( 'name' )?.errors?.[ 'required' ]">
+        Nombre de producto es requerido.
+      </small>
+      <small *ngIf="productForm.get( 'name' )?.errors?.[ 'minlength' ]">
+        Nombre de producto debe tener al menos 3 caracteres.
+      </small>
+    </div>
   </div>
   <div class="field">
     <label for="price">Precio</label>
@@ -25,6 +36,17 @@
       formControlName="price"
       placeholder="Precio del Producto"
     />
+    <div
+      *ngIf="productForm.get( 'price' )?.invalid && ( productForm.get( 'price' )?.dirty || productForm.get( 'price' )?.touched )"
+      class="error-message"
+    >
+      <small *ngIf="productForm.get( 'price' )?.errors?.[ 'required' ]">
+        Precio del producto es requerido.
+      </small>
+      <small *ngIf="productForm.get( 'price' )?.errors?.[ 'negativeValue' ]">
+        El precio debe ser mayor o igual a cero
+      </small>
+    </div>
   </div>
   <div class="field">
     <label for="quantity">Cantidad*</label>
@@ -35,6 +57,17 @@
       formControlName="quantity"
       placeholder="Cantidad disponible del Producto"
     />
+    <div
+    *ngIf="productForm.get( 'quantity' )?.invalid && ( productForm.get( 'quantity' )?.dirty || productForm.get( 'quantity' )?.touched )"
+    class="error-message"
+  >
+    <small *ngIf="productForm.get( 'quantity' )?.errors?.[ 'required' ]">
+      Cantidad del producto es requerido.
+    </small>
+    <small *ngIf="productForm.get( 'quantity' )?.errors?.[ 'invalidQuantity' ]">
+      El precio debe ser mayor a cero
+    </small>
+  </div>
   </div>
   <div
     class="field"
@@ -43,12 +76,12 @@
     <img [src]="preview" [alt]="productForm.value.name" />
   </div>
   <div class="field">
-    <label for="image">Cantidad*</label>
+    <label for="image">Imagen del producto*</label>
     <input
       id="image"
       class="input-field"
       type="file"
-      
+
       (change)="updateFile($event)"
     />
   </div>
@@ -82,5 +115,13 @@
       type="submit"
       [disabled]="this.productForm.invalid"
     >Crear Producto</button>
+  </div>
+
+  <div class="errors">
+    <h3 class="title-errors">Errors</h3>
+    <pre class="error">{{ productForm.get( 'name' )?.errors | json }}</pre>
+    <pre class="error">{{ productForm.get( 'price' )?.errors | json }}</pre>
+    <pre class="error">{{ productForm.get( 'quantity' )?.errors | json }}</pre>
+    <pre class="error">{{ productForm.get( 'urlImage' )?.errors | json }}</pre>
   </div>
 </form>
