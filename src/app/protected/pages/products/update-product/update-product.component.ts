@@ -17,6 +17,7 @@ import { CategoriesService } from 'src/app/services/categories.service';
 export class UpdateProductComponent implements OnInit {
   // Atributos
   categories!: Array<any>;
+  preview!: string;
   productId!: string;
   product!: Product;
 
@@ -75,6 +76,7 @@ export class UpdateProductComponent implements OnInit {
 
         /** Establece valores de producto en el atributo del componente */
         this.product = product;
+        this.preview = this.product.urlImage!;
 
         /** Establece los valores de cada uno de los campos del formulario */
         this.productForm.setValue({
@@ -82,6 +84,7 @@ export class UpdateProductComponent implements OnInit {
           price: this.product?.price,
           quantity: this.product?.quantity,
           category: this.product?.category,
+          urlImage: this.product?.urlImage,
           description: this.product?.description
         });
       });
@@ -119,4 +122,22 @@ export class UpdateProductComponent implements OnInit {
       });
   }
 
+  updateFile( event: any ) {
+    const file = (event.target).files[ 0 ];
+
+    this.productForm.patchValue({
+      urlImage: file
+    });
+
+    this.productForm.get( 'urlImage' )?.updateValueAndValidity();
+
+    /*** Leer el path del archivo para mostrar el preview */
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      this.preview = reader.result as string;
+    };
+
+    reader.readAsDataURL( file );
+  }
 }

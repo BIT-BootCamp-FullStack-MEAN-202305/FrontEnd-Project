@@ -36,6 +36,32 @@
       placeholder="Cantidad disponible del Producto"
     />
   </div>
+  <div
+    class="field"
+    *ngIf="preview && preview !== null"
+  >
+    <img [src]="preview" [alt]="productForm.value.name" />
+  </div>
+  <div class="field">
+    <label for="image">Imagen del producto*</label>
+    <input
+      id="image"
+      class="input-field"
+      type="file"
+      (change)="updateFile($event)"
+    />
+    <div class="error-message">
+      <!-- Mostrar mensaje de error para URL no válida -->
+      <small *ngIf="productForm.get('urlImage')?.errors?.[ 'invalidUrl' ]">
+        URL no válida. Asegúrate de seleccionar una URL de imagen válida.
+      </small>
+
+      <!-- Mostrar mensaje de error para imagen en base64 no válida -->
+      <small *ngIf="productForm.get('urlImage')?.errors?.[ 'invalidBase64Image' ]">
+        Imagen en base64 no válida. Asegúrate de proporcionar una imagen válida en formato base64.
+      </small>
+    </div>
+  </div>
   <div class="field">
     <label for="category">Categoria</label>
     <select
