@@ -5,22 +5,32 @@
 
 <ng-template #productList>
   <h3>Productos registrados</h3>
-  <table class="table table-products">
+
+  <table>
     <thead>
-      <th>Nombre</th>
-      <th>Categoria</th>
-      <th>Precio</th>
-      <th>Cantidad</th>
-      <th>Ranking</th>
-      <th colspan="2">Acciones</th>
+      <tr>
+        <th>Preview</th>
+        <th scope="col">Name and Description</th>
+        <th scope="col">Category</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Unite price</th>
+        <th scope="col">Total price</th>
+        <th scope="col">Actions</th>
+      </tr>
     </thead>
     <tbody>
       <tr *ngFor="let product of products">
-        <td>{{ product.name }}</td>
+        <td scope="row">
+          <img class="product__image" [src]="product.urlImage" [alt]="product.name">
+        </td>
+        <td>
+          <h3>{{ product.name }}</h3>
+          <p class="product__description">{{ product.description }}</p>
+        </td>
         <td>{{ product.category }}</td>
-        <td>{{ product.price | currency }}</td>
         <td>{{ product.quantity }}</td>
-        <td>{{ product.ranking }}</td>
+        <td>{{ product.price }}</td>
+        <td>{{ product.price! * product.quantity! | currency }}</td>
         <td>
           <button
             class="btn btn-primary"
@@ -28,8 +38,6 @@
           >
             Edit
           </button>
-        </td>
-        <td>
           <button
             class="btn btn-primary"
             (click)="delete( product._id )"
@@ -39,7 +47,19 @@
         </td>
       </tr>
     </tbody>
+    <tfoot>
+      <tr>
+        <th scope="row">Totals</th>
+        <td></td>
+        <td></td>
+        <td>16</td>
+        <td>2050</td>
+        <td>16750</td>
+        <th scope="row">Actions</th>
+      </tr>
+    </tfoot>
   </table>
+
 
 </ng-template>
 

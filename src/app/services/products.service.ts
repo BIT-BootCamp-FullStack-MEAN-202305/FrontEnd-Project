@@ -52,7 +52,7 @@ export class ProductsService {
     return this.http.post<Product>(
       `${ this.BASE_URL }/products`,      // URL del BackEnd al que debemos hacer la peticion
       formData,                            // Objeto de producto a crear
-      {                                   // Cabeceras con información requerida 
+      {                                   // Cabeceras con información requerida
         headers: this.headers,
         reportProgress: false,
         observe: 'events'
@@ -87,7 +87,7 @@ export class ProductsService {
   getProductsByUser( userId: string ) {
 
     return this.http.get<Products>(
-      `${ this.BASE_URL }/products/user/${ userId }`,   // URL del BackEnd al que debemos hacer la peticion
+      `${ this.BASE_URL }/products/`,   // URL del BackEnd al que debemos hacer la peticion
       { headers: this.headers }                         // Cabeceras con información requerida
     )
     .pipe(
