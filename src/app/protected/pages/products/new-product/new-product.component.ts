@@ -197,7 +197,7 @@ export class NewProductComponent implements OnInit {
         case HttpEventType.Response:
           console.log( 'El producto ha sido creado exitosamente!', event.body );
           this.percentDone = false;
-          this.router.navigate( [ 'products' ] );
+          this.router.navigate( [ 'dashboard', 'products' ] );
       }
     });
 
