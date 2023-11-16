@@ -1,4 +1,5 @@
 <header>
+  <pre>{{ user | json }}</pre>
   <div class="container">
     <a routerLink="/" class="logo">Logo</a>
     <nav>
@@ -11,6 +12,39 @@
         </li>
         <li>
           <a routerLink="/cart-page" class="cart-page">Cart <span>9</span></a>
+        </li>
+        <li>
+          <ul>
+            <li class="menu-container user-menu-item">
+              <a class="menu-user-icon" routerLink="/auth/dashboard">
+                <div class="user-avatar">
+                  <img class="avatar-profile" src="assets/images/user-profile-icon.png" alt="">
+                </div>
+                <div class="arrow-down"></div>
+              </a>
+              <ul class="menu menu-user">
+                <li>
+                  <a routerLink="/profile">
+                    <strong>Profile</strong>
+                    <p class="user-name">{{ user.name }} <span class="user-role">({{ user.role }})</span></p>
+                  </a>
+                </li>
+                <li>
+                  <a routerLink="/dashboard">Dashboard</a>
+                </li>
+                <li>
+                  <a routerLink="/settings">Settings</a>
+                </li>
+                <li>
+                  <a
+                    type="button"
+                    (click)="logout()"
+                  >Logout</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+
         </li>
       </ul>
     </nav>

@@ -62,3 +62,102 @@ a span {
   background-color: #fff;
   color: rgb(236, 68, 68);
 }
+
+.container {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo {
+  font-family: 'Passion One', cursive;
+  font-size: 2.4rem;
+}
+
+.menu-container {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+.menu {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  background-color: whitesmoke;
+  flex-direction: column;
+  top: 2rem;
+  right: 0;
+}
+
+.menu.menu-user {
+  border: 1px solid red;
+  width: 12rem;
+  /* padding: 1rem; */
+}
+
+.menu-container:hover .menu {
+  display: block;
+}
+
+ul {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+  color: rgb(236, 68, 68);
+  padding: 0.6rem 1.2rem;
+  display: block;
+  text-decoration: none;
+}
+
+a:hover {
+  background-color: rgb(236, 68, 68);
+  color: #fff;
+}
+
+a span {
+  background-color: rgb(236, 68, 68);
+  border-radius: 5rem;
+  color: #fff;
+  font-size: .9rem;
+  padding: .1rem .45rem;
+}
+
+.cart-page:hover span {
+  background-color: #fff;
+  color: rgb(236, 68, 68);
+}
+
+
+.menu-user-icon {
+  /* border: 1px solid blue; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+}
+
+.avatar-profile {
+  width: 30px; /* Ajusta el tamaño según tus necesidades */
+  height: 30px; /* Ajusta el tamaño según tus necesidades */
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px; /* Espaciado entre la imagen y la flecha */
+}
+
+/* Estilo para la flecha hacia abajo */
+.arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid black; /* Cambia el color según tus preferencias */
+  cursor: pointer;
+}
